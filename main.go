@@ -42,6 +42,11 @@ func handleConnection(conn net.Conn) {
 
         path := strings.TrimSpace(string(buf[0:n]))
 
+        if strings.Contains(path, "..") {
+                conn.Write([]byte("Path cannot contain '..' \n"))
+                return
+        }
+
         if path[0] != '/' {
                 conn.Write([]byte("Path must start with '/'\n"))
                 return
