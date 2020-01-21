@@ -1,7 +1,6 @@
 package main
 
 import (
-        "fmt"
         "log"
         "net"
         "os"
@@ -10,7 +9,7 @@ import (
 )
 
 func main() {
-        fmt.Println("Hi there")
+        log.Println("Starting up")
 
         ln, err := net.Listen("tcp", ":3838")
         if err != nil {
@@ -32,7 +31,7 @@ func handleConnection(conn net.Conn) {
         var buf = make([]byte, 1024)
         n, err := conn.Read(buf)
         if err != nil {
-                fmt.Println(err)
+                log.Println(err)
         }
 
         if n == 0 {
@@ -47,16 +46,11 @@ func handleConnection(conn net.Conn) {
                 return
         }
 
-        if path[0] != '/' {
-                conn.Write([]byte("Path must start with '/'\n"))
-                return
-        }
-
-        relPath := path[1:]
+        relPath := strings.TrimLeft(path, "/")
 
         f, err := os.Open(relPath)
         if err != nil {
-                fmt.Println(err)
+                log.Println(err)
                 conn.Write([]byte("Not found \n"))
                 return
         }
