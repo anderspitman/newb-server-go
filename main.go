@@ -11,7 +11,7 @@ import (
 func main() {
         log.Println("Starting up")
 
-        ln, err := net.Listen("tcp", ":3838")
+        ln, err := net.Listen("tcp", ":2052")
         if err != nil {
                 // handle error
         }
